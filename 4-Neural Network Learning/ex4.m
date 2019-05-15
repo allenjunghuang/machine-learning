@@ -15,14 +15,7 @@
 %  or any other files other than those mentioned above.
 %
 
-%% Initialization
 clear ; close all; clc
-
-%% Setup the parameters you will use for this exercise
-input_layer_size  = 400;  % 20x20 Input Images of Digits
-hidden_layer_size = 25;   % 25 hidden units
-num_labels = 10;          % 10 labels, from 1 to 10   
-                          % (note that we have mapped "0" to label 10)
 
 %% =========== Part 1: Loading and Visualizing Data =============
 %  We start the exercise by first loading and visualizing the dataset. 
@@ -35,6 +28,11 @@ fprintf('Loading and Visualizing Data ...\n')
 load('ex4data1.mat');
 m = size(X, 1);
 
+% Setup neural network 
+input_layer_size  = size(X,2); % 20x20 image
+hidden_layer_size = 25;   % 25 hidden units
+num_labels = size(unique(y),1); % 10 labels, from 1 to 10
+
 % Randomly select 100 data points to display
 sel = randperm(size(X, 1));
 sel = sel(1:100);
@@ -44,11 +42,9 @@ displayData(X(sel, :));
 fprintf('Program paused. Press enter to continue.\n');
 pause;
 
-
 %% ================ Part 2: Loading Parameters ================
-% In this part of the exercise, we load some pre-initialized 
-% neural network parameters.
-
+% Load the pre-initialized neural network parameters.
+%
 fprintf('\nLoading Saved Neural Network Parameters ...\n')
 
 % Load the weights into variables Theta1 and Theta2
@@ -71,11 +67,9 @@ nn_params = [Theta1(:) ; Theta2(:)];
 %
 fprintf('\nFeedforward Using Neural Network ...\n')
 
-% Weight regularization parameter (we set this to 0 here).
-lambda = 0;
+lambda = 0; % weight regularization parameter
 
-J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
-                   num_labels, X, y, lambda);
+J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda);
 
 fprintf(['Cost at parameters (loaded from ex4weights): %f '...
          '\n(this value should be about 0.287629)\n'], J);
@@ -93,8 +87,7 @@ fprintf('\nChecking Cost Function (w/ Regularization) ... \n')
 % Weight regularization parameter (we set this to 1 here).
 lambda = 1;
 
-J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
-                   num_labels, X, y, lambda);
+J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda);
 
 fprintf(['Cost at parameters (loaded from ex4weights): %f '...
          '\n(this value should be about 0.383770)\n'], J);
@@ -120,7 +113,7 @@ fprintf('Program paused. Press enter to continue.\n');
 pause;
 
 
-%% ================ Part 6: Initializing Pameters ================
+%% ================ Part 6: Initializing Parameters ================
 %  In this part of the exercise, you will be starting to implment a two
 %  layer neural network that classifies digits. You will start by
 %  implementing a function to initialize the weights of the neural network
@@ -143,8 +136,7 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 %
 fprintf('\nChecking Backpropagation... \n');
 
-%  Check gradients by running checkNNGradients
-checkNNGradients;
+checkNNGradients; % Check gradients
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
@@ -162,11 +154,10 @@ lambda = 3;
 checkNNGradients(lambda);
 
 % Also output the costFunction debugging values
-debug_J  = nnCostFunction(nn_params, input_layer_size, ...
-                          hidden_layer_size, num_labels, X, y, lambda);
+J  = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, num_labels, X, y, lambda);
 
 fprintf(['\n\nCost at (fixed) debugging parameters (w/ lambda = %f): %f ' ...
-         '\n(for lambda = 3, this value should be about 0.576051)\n\n'], lambda, debug_J);
+         '\n(for lambda = 3, this value should be about 0.576051)\n\n'], lambda, J);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -189,21 +180,16 @@ options = optimset('MaxIter', 50);
 lambda = 1;
 
 % Create "short hand" for the cost function to be minimized
-costFunction = @(p) nnCostFunction(p, ...
-                                   input_layer_size, ...
-                                   hidden_layer_size, ...
-                                   num_labels, X, y, lambda);
+costFunction = @(p) nnCostFunction(p, input_layer_size, hidden_layer_size, num_labels, X, y, lambda);
 
 % Now, costFunction is a function that takes in only one argument (the
 % neural network parameters)
 [nn_params, cost] = fmincg(costFunction, initial_nn_params, options);
 
 % Obtain Theta1 and Theta2 back from nn_params
-Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
-                 hidden_layer_size, (input_layer_size + 1));
+Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), hidden_layer_size, (input_layer_size + 1));
 
-Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
-                 num_labels, (hidden_layer_size + 1));
+Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), num_labels, (hidden_layer_size + 1));
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -230,5 +216,3 @@ pause;
 pred = predict(Theta1, Theta2, X);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
-
-

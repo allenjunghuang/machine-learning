@@ -37,7 +37,7 @@ g = zeros(size(theta));
 
 h = sigmoid(X * theta);
 
-J = (-1/m) * (y'*log(h) + (1-y)' * log(1 - h)) + (lambda / (2 * m)) * (theta(2:end,1)' * theta(2:end,1));
+J = (-1/m) * (y'*log(h) + (1-y)' * log(1 - h)) + (lambda/(2*m)) * (theta(2:end,1)' * theta(2:end,1));
 g = (1/m)*(X'*(h - y)) + [0; (lambda / m) * theta(2:end,1)];
 
 end

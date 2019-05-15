@@ -64,21 +64,18 @@ pause;
 theta = [1 ; 1];
 [J, grad] = linearRegCostFunction([ones(m, 1) X], y, theta, 1);
 
-fprintf(['Gradient at theta = [1 ; 1]:  [%f; %f] '...
-         '\n(this value should be about [-15.303016; 598.250744])\n'], ...
-         grad(1), grad(2));
+fprintf(['Gradient at theta = [1 ; 1]:  [%f; %f] \n'... 
+         '(this value should be about [-15.303016; 598.250744])\n'], grad(1), grad(2));
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
-
 
 %% =========== Part 4: Train Linear Regression =============
 %  Once you have implemented the cost and gradient correctly, the
 %  trainLinearReg function will use your cost function to train 
 %  regularized linear regression.
 % 
-%  Write Up Note: The data is non-linear, so this will not give a great 
-%                 fit.
+%  Write Up Note: The data is non-linear, so this will not give a great fit.
 %
 
 %  Train linear regression with lambda = 0
@@ -105,10 +102,7 @@ pause;
 %
 
 lambda = 0;
-[error_train, error_val] = ...
-    learningCurve([ones(m, 1) X], y, ...
-                  [ones(size(Xval, 1), 1) Xval], yval, ...
-                  lambda);
+[error_train, error_val] = learningCurve([ones(m, 1) X], y, [ones(size(Xval, 1), 1) Xval], yval, lambda);
 
 plot(1:m, error_train, 1:m, error_val);
 title('Learning curve for linear regression')
