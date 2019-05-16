@@ -13,7 +13,9 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 %               onto the original space using the top K eigenvectors in U.
 
 % For the i-th example Z(i,:), the (approximate) recovered data for dimension j
-v = Z(i, :)';
-recovered_j = v' * U(j, 1:K)'; % U(j, 1:K) is a row vector.
+% recovered_j = Z(i, :) * U(j, 1:K)';
+% Note that U(j, 1:K) is a row vector.
+
+X_rec = Z * U(:, 1:K)';
 
 end
