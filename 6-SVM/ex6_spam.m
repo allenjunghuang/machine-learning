@@ -3,7 +3,6 @@
 %
 %  Instructions
 %  ------------
-% 
 %  This file contains code that helps you get started on the
 %  exercise. You will need to complete the following functions:
 %
@@ -14,7 +13,6 @@
 %
 %  For this exercise, you will not need to change any code in this file,
 %  or any other files other than those mentioned above.
-%
 
 %% Initialization
 clear ; close all; clc
@@ -28,11 +26,11 @@ clear ; close all; clc
 
 fprintf('\nPreprocessing sample email (emailSample1.txt)\n');
 
-% Extract Features
+% Extract features
 file_contents = readFile('emailSample1.txt');
 word_indices  = processEmail(file_contents);
 
-% Print Stats
+% Print stats
 fprintf('Word Indices: \n');
 fprintf(' %d', word_indices);
 fprintf('\n\n');
@@ -47,12 +45,12 @@ pause;
 
 fprintf('\nExtracting features from sample email (emailSample1.txt)\n');
 
-% Extract Features
+% Extract features
 file_contents = readFile('emailSample1.txt');
 word_indices  = processEmail(file_contents);
 features      = emailFeatures(word_indices);
 
-% Print Stats
+% Print stats
 fprintf('Length of feature vector: %d\n', length(features));
 fprintf('Number of non-zero entries: %d\n', sum(features > 0));
 
@@ -63,8 +61,7 @@ pause;
 %  In this section, you will train a linear classifier to determine if an
 %  email is Spam or Not-Spam.
 
-% Load the Spam Email dataset
-% You will have X, y in your environment
+% Load the Spam Email dataset, you will have X, y in the environment
 load('spamTrain.mat');
 
 fprintf('\nTraining Linear SVM (Spam Classification)\n')
@@ -81,8 +78,7 @@ fprintf('Training Accuracy: %f\n', mean(double(p == y)) * 100);
 %  After training the classifier, we can evaluate it on a test set. We have
 %  included a test set in spamTest.mat
 
-% Load the test dataset
-% You will have Xtest, ytest in your environment
+% Load the test dataset, you will have Xtest, ytest in the environment
 load('spamTest.mat');
 
 fprintf('\nEvaluating the trained Linear SVM on a test set ...\n')
@@ -130,7 +126,7 @@ filename = 'spamSample1.txt';
 % Read and predict
 file_contents = readFile(filename);
 word_indices  = processEmail(file_contents);
-x             = emailFeatures(word_indices);
+x = emailFeatures(word_indices);
 p = svmPredict(model, x);
 
 fprintf('\nProcessed %s\n\nSpam Classification: %d\n', filename, p);
